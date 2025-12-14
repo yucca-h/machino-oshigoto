@@ -274,7 +274,9 @@
 <body>
     <div class="container">
         <header>
-            <h1 id="user-name"></h1>
+            <h1 id="user-name">
+                <img src="image/main-v.png" alt="まちのおしごとフェス" style="max-width: 100%; height: auto; margin: 1rem 0;">
+            </h1>
             <div id="user-role" class="tag-badge"></div>
             <p id="user-bio" style="font-weight: 700; margin-top: 2rem;"></p>
         </header>
@@ -358,7 +360,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             // 基本情報のセット
-            document.getElementById('user-name').textContent = config.name;
+            // h1には画像を使用するため、テキストは設定しない
+            // document.getElementById('user-name').textContent = config.name;
             document.getElementById('user-role').textContent = config.role;
             document.getElementById('user-bio').innerHTML = config.bio.replace(/\n/g, '<br>');
             document.getElementById('footer-name').textContent = config.name; // フッターの名前も自動更新
