@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<!--
+  Template: POP v1.0
+  Author: Haruki Tominaga
+  License: https://amix-design.com/tominaga/eyan-theme/license 
+  © 2025 EYAN / トミナガハルキ
+-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <title>Portfolio - POP</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;700&family=Noto+Sans+JP:wght@500;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           配色設定
+           ここを変更するとサイト全体の色が変わります
+           ========================================= */
+        :root {
+            --bg-color: #ffde00;    /* 背景色（黄色） */
+            --accent-pink: #ff6b6b; /* アクセント（ピンク） */
+            --accent-blue: #4ecdc4; /* アクセント（水色） */
+            --black: #000;          /* 黒色 */
+            --white: #fff;          /* 白色 */
+            
+            /* 線の太さと影の設定 */
+            --border: 4px solid #000;
+            --shadow: 6px 6px 0px 0px #000;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black);
+            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* コンテンツ全体を囲む枠 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--white);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            position: relative;
+            opacity: 0;
+            animation: containerPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        /* ヘッダーエリア */
+        header {
+            text-align: center;
+            border-bottom: var(--border);
+            padding-bottom: 3rem;
+            margin-bottom: 3rem;
+        }
+        h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            margin: 0;
+            line-height: 1;
+            text-shadow: 4px 4px 0 var(--accent-pink);
+            transform: rotate(-2deg); /* 少し傾ける */
+        }
+        .tag-badge {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: var(--black);
+            padding: 0.5rem 1rem;
+            font-weight: 900;
+            border: 2px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            transform: rotate(2deg);
+            margin: 1rem 0;
+        }
+        
+        /* ギャラリーグリッド */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* カードデザイン */
+        .card { 
+            border: var(--border);
+            background: #fff;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s; 
+            opacity: 0;
+            /* ポップな出現アニメーション */
+            animation: cardPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: var(--shadow);
+        }
+        .card-img-wrap {
+            height: 250px;
+            border-bottom: var(--border);
+            overflow: hidden;
+            background: #eee;
+        }
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-body { padding: 1rem; font-weight: 900; }
+        .card-cat {
+            background: var(--black);
+            color: var(--white);
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* === 追加エリア: フリーテキストセクション === */
+        .text-section {
+            margin-top: 4rem;
+            padding: 2rem;
+            border: var(--border);
+            background: #fff; /* 背景は白のまま、枠線で区切る */
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        /* メモ帳のような装飾テープ（飾り） */
+        .text-section::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px solid #000;
+            background-color: var(--accent-blue);
+            z-index: 10;
+        }
+        .text-section h2 {
+            font-family: 'Archivo Black', sans-serif;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            background: var(--bg-color); /* 黄色背景 */
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: 2px solid #000;
+            transform: rotate(-1deg);
+            box-shadow: 4px 4px 0 #000;
+        }
+        .text-body {
+            font-weight: 500;
+            line-height: 1.8;
+            white-space: pre-wrap; /* 改行を反映 */
+            font-size: 1.1rem;
+        }
+
+        /* リンクボタンエリア */
+        .links-area {
+            margin-top: 4rem;
+            text-align: center;
+            background: var(--accent-pink);
+            padding: 2rem;
+            border: var(--border);
+        }
+        .pop-btn {
+            display: inline-block;
+            background: var(--white);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            border: var(--border);
+            margin: 0.5rem;
+            transition: 0.2s;
+        }
+        .pop-btn:hover {
+            background: var(--accent-blue);
+            box-shadow: var(--shadow);
+            transform: translate(-4px, -4px);
+        }
+
+        /* モーダル (拡大表示) */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            padding: 1rem;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal.active { opacity: 1; visibility: visible; }
+        
+        .modal-content {
+            background: var(--white);
+            border: var(--border);
+            box-shadow: 10px 10px 0 var(--accent-blue);
+            padding: 1rem;
+            max-width: 600px;
+            width: 100%;
+            transform: scale(0.8) rotate(-5deg);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal.active .modal-content { transform: scale(1) rotate(0deg); }
+        .modal-img {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            border: 2px solid #000;
+            display: block;
+            object-fit: contain;
+            margin: 0 auto;
+            background: #eee;
+        }
+        .modal-text {
+            padding-top: 1rem;
+            font-weight: 500;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            color: var(--black);
+            font-size: 1rem;
+        }
+
+        /* アニメーション定義 */
+        @keyframes containerPop {
+            0% { transform: translateY(100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes cardPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* スマホ対応調整 */
+        @media (max-width: 600px) { 
+            h1 { font-size: 2.5rem; } 
+            .container { padding: 1.5rem; } 
+            
+            /* スマホでのモーダル最適化 */
+            .modal-content {
+                transform: scale(0.9) rotate(0deg) !important;
+                max-width: 95vw;
+                padding: 0.8rem;
+            }
+            .modal.active .modal-content {
+                transform: scale(1) rotate(0deg) !important;
+            }
+            .modal-img { max-height: 50vh; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="user-name"></h1>
+            <div id="user-role" class="tag-badge"></div>
+            <p id="user-bio" style="font-weight: 700; margin-top: 2rem;"></p>
+        </header>
+        
+        <div id="gallery-grid" class="gallery-grid"></div>
+        
+        <div id="text-section" class="text-section" style="display: none;">
+            <h2 id="text-title"></h2>
+            <div id="text-body" class="text-body"></div>
+        </div>
+
+        <div class="links-area">
+            <h2 style="font-family: 'Archivo Black'; text-transform: uppercase;">Let's Connect!</h2>
+            <div id="links-list"></div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 2rem; font-weight: 700;">
+            &copy; <span id="year"></span> <span id="footer-name">NAME</span>
+        </p>
+    </div>
+
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modal-img" class="modal-img" src="">
+            <div style="padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <h2 id="modal-title" style="margin:0; font-size: 1.2rem;"></h2>
+                <button onclick="closeModal()" style="background:var(--black); color:var(--white); border:none; padding:0.5rem 1rem; font-weight:900; cursor:pointer;">CLOSE X</button>
+            </div>
+            <div id="modal-text" class="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================
+           【設定エリア】以下の内容を自由に書き換えてください
+           ============================================================ */
+        const config = {
+            // お名前
+            name: "まちのおしごとフェス",
+            
+            // 肩書き
+            role: "@PLE CAFE",
+            
+            // 自己紹介文（\n で改行）
+            bio: "まちの職人さんたちといっしょに、ものづくりの世界を体験しよう！\n電気工事、木工、標識づくりなど、実際の仕事を子どもでもできる形で体験できますつくるって楽しい！を感じながら、まちを支える“しごと”に出会える1日です",
+            
+            // 【追加】フリーテキストエリア（不要な場合は display: false にしてください）
+            freeText: {
+                display: true,
+                title: "About My Activities",
+                body: "ここには長文のテキストコンテンツを入れることができます。\n例えば活動履歴や、大切にしている価値観、詳細なスキルセットなど。\n\n改行もそのまま反映されますので、ブログのような使い方も可能です。\n枠線と影がついたデザインで、POPな雰囲気を壊さずに情報を追加できます。"
+            },
+
+            // 【作品リスト】
+            // 画像ファイルは "image/image1.jpg", "image/image2.jpg"... のように
+            // 連番で保存してください。画像がない項目は自動的に非表示になります。
+            works: [
+                { title: "ひかるスイッチ大作戦", category: "対象年齢５歳〜", description: "電気工事の基本を学びながら、実際にスイッチを作ってみよう！\nLEDライトが光る仕組みを体験できます。" },
+                { title: "Project 02", category: "Design", description: "" },
+                { title: "Project 03", category: "Photo", description: "" },
+                { title: "Project 04", category: "Fashion", description: "" },
+                { title: "Project 05", category: "Print", description: "" },
+                { title: "Project 06", category: "Merch", description: "" },
+                // 必要に応じて行をコピーして増やしてください（最大18個）
+                // description プロパティに説明文を追加すると、モーダルに表示されます（\n で改行可能）
+                { title: "Project 07", category: "Web", description: "" },
+                { title: "Project 08", category: "Other", description: "" },
+            ],
+            
+            // 【リンクボタン】
+            links: [
+                { label: "YouTube", url: "#" },
+                { label: "TikTok", url: "#" },
+                { label: "Contact", url: "mailto:hello@example.com" }
+            ]
+        };
+
+        // ============================================================
+        //  ここから下は変更しなくて大丈夫です
+        // ============================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 基本情報のセット
+            document.getElementById('user-name').textContent = config.name;
+            document.getElementById('user-role').textContent = config.role;
+            document.getElementById('user-bio').innerHTML = config.bio.replace(/\n/g, '<br>');
+            document.getElementById('footer-name').textContent = config.name; // フッターの名前も自動更新
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // フリーテキストエリアの表示処理
+            const textSection = document.getElementById('text-section');
+            if (config.freeText && config.freeText.display) {
+                textSection.style.display = 'block';
+                document.getElementById('text-title').textContent = config.freeText.title;
+                document.getElementById('text-body').textContent = config.freeText.body;
+            } else {
+                textSection.style.display = 'none';
+            }
+
+            // ギャラリー生成
+            const grid = document.getElementById('gallery-grid');
+            const maxItems = 18; 
+            
+            config.works.slice(0, maxItems).forEach((work, index) => {
+                const imagePath = `image/image${index + 1}.jpg`;
+                
+                const div = document.createElement('div');
+                div.className = 'card';
+                // 順番に出現するアニメーションの遅延設定
+                div.style.animationDelay = `${0.5 + (index * 0.1)}s`; 
+
+                // 画像読み込みエラー時にカードごと削除する処理を含みます
+                div.innerHTML = `
+                    <div class="card-img-wrap">
+                        <img src="${imagePath}" class="card-img" alt="${work.title}" 
+                             onerror="this.closest('.card').remove()">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-cat">${work.category}</span>
+                        <div>${work.title}</div>
+                    </div>
+                `;
+                
+                div.onclick = () => openModal(work, imagePath);
+                grid.appendChild(div);
+            });
+
+            // リンクボタン生成
+            const linkList = document.getElementById('links-list');
+            config.links.forEach(link => { 
+                const a = document.createElement('a'); 
+                a.href = link.url; 
+                a.target = '_blank'; // Added target="_blank"
+                a.rel = 'noopener noreferrer'; // Added rel="noopener noreferrer"
+                a.className = 'pop-btn'; 
+                a.textContent = link.label; 
+                linkList.appendChild(a); 
+            });
+        });
+
+        // モーダル機能
+        const modal = document.getElementById('modal');
+        function openModal(work, imagePath) {
+            document.getElementById('modal-img').src = imagePath;
+            document.getElementById('modal-title').textContent = work.title;
+            const modalText = document.getElementById('modal-text');
+            if (work.description) {
+                modalText.textContent = work.description;
+                modalText.style.display = 'block';
+            } else {
+                modalText.style.display = 'none';
+            }
+            modal.classList.add('active');
+        }
+        function closeModal() { 
+            modal.classList.remove('active'); 
+        }
+    </script>
+</body>
+</html>
